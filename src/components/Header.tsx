@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { ROLES } from "@/lib/roles";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -14,6 +16,8 @@ const navLinks = [
 const Header = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { user, roleConfig } = useAuth();
+  const dashHome = roleConfig?.menu[0]?.to ?? "/app/profile";
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-lg border-b border-border shadow-soft">
@@ -41,14 +45,26 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button
-            variant="medical"
-            size="sm"
-            onClick={() => navigate("/login")}
-            className="hidden sm:inline-flex"
-          >
-            Login
-          </Button>
+          {user ? (
+            <Button
+              variant="medical"
+              size="sm"
+              onClick={() => navigate(dashHome)}
+              className="hidden sm:inline-flex"
+            >
+              <LayoutDashboard className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+          ) : (
+            <Button
+              variant="medical"
+              size="sm"
+              onClick={() => navigate("/login")}
+              className="hidden sm:inline-flex"
+            >
+              Login
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
