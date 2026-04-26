@@ -90,8 +90,8 @@ const Header = () => {
                 {l.label}
               </a>
             ))}
-            <Button variant="medical" onClick={() => navigate("/login")} className="sm:hidden mt-2">
-              Login
+            <Button variant="medical" onClick={() => navigate(user ? dashHome : "/login")} className="sm:hidden mt-2">
+              {user ? "Dashboard" : "Login"}
             </Button>
           </nav>
         </div>
